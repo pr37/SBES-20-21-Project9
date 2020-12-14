@@ -13,7 +13,7 @@ namespace PubSubEngine
 
         public void Publish(Alarm alarm)
         {
-            throw new NotImplementedException();
+            Console.WriteLine(alarm);
         }
     }
 }

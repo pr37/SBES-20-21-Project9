@@ -18,9 +18,20 @@ namespace Publisher
 
             using (Publisher proxy = new Publisher(binding, address))
             {
-                /// 1. Communication test
-                //proxy.Publish();
-                Console.WriteLine("TestCommunication() finished. Press <enter> to continue ...");
+
+                Console.WriteLine("Publisher online.Define publishing interval(integer, milliseconds): ");
+                string input = Console.ReadLine();
+                int interval;
+                while (!Int32.TryParse(input, out interval))
+                {
+                    Console.WriteLine("Enter a proper integer: ");
+                    input = Console.ReadLine();
+                }
+
+                proxy.PublishingInterval = interval;
+                proxy.StartPublishing();
+
+                Console.WriteLine("Communication aborted. Press <enter> to continue ...");
                 Console.ReadLine();
             }
         }

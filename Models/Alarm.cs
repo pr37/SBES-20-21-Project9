@@ -3,24 +3,44 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Resources;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Models
 {
+    [DataContract]
     public enum AlarmMessagesTypes
     {
+        [EnumMember]
         LowPrio = 0,
+
+        [EnumMember]
         StandardPrio,
+
+        [EnumMember]
         HighPrio
     }
 
+    [DataContract]
     public class Alarm
     {
+        [DataMember]
+        public static int MaxRisk = 100;
+
+        [DataMember]
+        public static int MinRisk = 1;
+
+
+        [DataMember]
         public DateTime CreationTime { get; private set; }
 
+
+        [DataMember]
         private int _risk;
 
+
+        [DataMember]
         public int Risk {
             get { return _risk; }
             private set
@@ -32,6 +52,8 @@ namespace Models
                 _risk = value;
             }
         }
+
+        [DataMember]
         public string Message { get; private set; }
 
         public Alarm(DateTime creation, int risk, AlarmMessagesTypes type)
@@ -40,6 +62,11 @@ namespace Models
             Risk = risk;
             ResourceManager rM = new ResourceManager(typeof(AlarmMessages).FullName, Assembly.GetExecutingAssembly());
             Message = rM.GetString(type.ToString());
+        }
+
+        public override string ToString()
+        {
+            return string.Format($"[{this.CreationTime}] : Risk:{this.Risk} : Additional Message:{this.Message}");
         }
 
     }
