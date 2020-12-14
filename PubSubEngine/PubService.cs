@@ -1,4 +1,5 @@
 ﻿using Contracts;
+using Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace PubSubEngine
 {
     public class PubService : IPublish
     {
-        public void Publish()
+
+        public void Publish(Alarm alarm)
         {
-            //TODO
-            Console.WriteLine("Communication established.");
+            throw new NotImplementedException();
         }
     }
 }

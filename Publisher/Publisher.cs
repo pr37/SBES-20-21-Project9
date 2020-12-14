@@ -5,6 +5,7 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using Contracts;
+using Models;
 
 namespace Publisher
 {
@@ -28,17 +29,6 @@ namespace Publisher
 			factory = this.CreateChannel();
 		}
 
-		public void Publish()
-		{
-			try
-			{
-				factory.Publish();
-			}
-			catch (Exception e)
-			{
-				Console.WriteLine("[Publish] ERROR = {0}", e.Message);
-			}
-		}
 
 		public void Dispose()
 		{
@@ -49,5 +39,17 @@ namespace Publisher
 
 			this.Close();
 		}
-	}
+
+        public void Publish(Alarm alarm)
+        {
+			try
+			{
+				factory.Publish(alarm);
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine("[Publish] ERROR = {0}", e.Message);
+			}
+		}
+    }
 }

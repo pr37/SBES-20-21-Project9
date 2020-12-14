@@ -4,6 +4,7 @@ using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using Models;
 
 namespace Contracts
 {
@@ -11,6 +12,6 @@ namespace Contracts
     public interface IPublish
     {
         [OperationContract]
-        void Publish();
+        void Publish(Alarm alarm);
     }
 }

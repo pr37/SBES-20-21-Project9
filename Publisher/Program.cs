@@ -19,7 +19,7 @@ namespace Publisher
             using (Publisher proxy = new Publisher(binding, address))
             {
                 /// 1. Communication test
-                proxy.Publish();
+                //proxy.Publish();
                 Console.WriteLine("TestCommunication() finished. Press <enter> to continue ...");
                 Console.ReadLine();
             }
