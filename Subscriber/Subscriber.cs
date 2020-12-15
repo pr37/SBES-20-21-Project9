@@ -28,18 +28,6 @@ namespace Subscriber
 			factory = this.CreateChannel();
 		}
 
-		public void Subscribe()
-		{
-			try
-			{
-				factory.Subscribe();
-			}
-			catch (Exception e)
-			{
-				Console.WriteLine("[Subscribe] ERROR = {0}", e.Message);
-			}
-		}
-
 		public void Dispose()
 		{
 			if (factory != null)
@@ -49,5 +37,18 @@ namespace Subscriber
 
 			this.Close();
 		}
-	}
+
+        public void Subscribe(int from, int to)
+        {
+			try
+			{
+				factory.Subscribe(from, to);
+				Console.WriteLine($"Subrscribed to topic [{from}-{to}]");
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine("[Subscribe] ERROR = {0}", e.Message);
+			}
+		}
+    }
 }

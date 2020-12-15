@@ -9,10 +9,10 @@ namespace PubSubEngine
 {
     public class SubService : ISubscribe
     {
-        public void Subscribe()
+
+        public void Subscribe(int from, int to)
         {
-            //TODO
-            Console.WriteLine("Communication established.");
+            Console.WriteLine($"Subccriber XYZ subcribed to [{from}-{to}]");
         }
     }
 }

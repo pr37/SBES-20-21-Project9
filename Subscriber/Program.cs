@@ -18,9 +18,20 @@ namespace Subscriber
 
             using (Subscriber proxy = new Subscriber(binding, address))
             {
-                /// 1. Communication test
-                proxy.Subscribe();
-                Console.WriteLine("TestCommunication() finished. Press <enter> to continue ...");
+                Console.WriteLine("Define minimum and maximum risk of iterest(integer_integer):");
+                string input = Console.ReadLine();
+                string[] ints = input.Split(' ');
+                int minRisk, maxRisk;
+                while (ints.Length != 2 || !Int32.TryParse(ints[0], out minRisk) || !Int32.TryParse(ints[1], out maxRisk))
+                {
+                    Console.WriteLine("Enter 2 proper integers separeted by a space: ");
+                    input = Console.ReadLine();
+                    ints = input.Split(' ');
+                }
+
+                proxy.Subscribe(minRisk, maxRisk);
+
+                Console.ReadLine();
                 Console.ReadLine();
             }
         }

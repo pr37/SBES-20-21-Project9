@@ -11,6 +11,7 @@ namespace Contracts
     public interface ISubscribe
     {
         [OperationContract]
-        void Subscribe();
+        void Subscribe(int from, int to);
+
     }
 }
