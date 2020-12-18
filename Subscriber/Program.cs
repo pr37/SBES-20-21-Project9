@@ -16,7 +16,8 @@ namespace Subscriber
             NetTcpBinding binding = new NetTcpBinding();
             EndpointAddress address = new EndpointAddress(new Uri("net.tcp://localhost:9999/Subscribers"));
 
-            using (Subscriber proxy = new Subscriber(binding, address))
+            InstanceContext instanceContext = new InstanceContext(new SubscriberCallbackHandler());
+            using (SubscriberCallbackProxy proxy = new SubscriberCallbackProxy(instanceContext ,binding, address))
             {
                 Console.WriteLine("Define minimum and maximum risk of iterest(integer_integer):");
                 string input = Console.ReadLine();
@@ -35,5 +36,6 @@ namespace Subscriber
                 Console.ReadLine();
             }
         }
+
     }
 }

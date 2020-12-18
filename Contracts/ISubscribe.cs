@@ -4,14 +4,22 @@ using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using Models;
 
 namespace Contracts
 {
-    [ServiceContract]
+    [ServiceContract(SessionMode = SessionMode.Required, CallbackContract = typeof(ISubscribeCallback))]
     public interface ISubscribe
     {
-        [OperationContract]
+        [OperationContract(IsOneWay = true)]
         void Subscribe(int from, int to);
 
+    }
+
+    [ServiceContract(SessionMode = SessionMode.Required)]
+    public interface ISubscribeCallback
+    {
+        [OperationContract(IsOneWay = true)]
+        void PushTopic(List<Alarm> alarms);
     }
 }
