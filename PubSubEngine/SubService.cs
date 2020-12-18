@@ -15,8 +15,13 @@ namespace PubSubEngine
 
         public void Subscribe(int from, int to)
         {
+            List<Alarm> testData = new List<Alarm>()
+            {
+                new Alarm(DateTime.Now, 1 , AlarmMessagesTypes.LowPrio),
+                new Alarm(DateTime.Now, 53, AlarmMessagesTypes.StandardPrio)
+            };
             Console.WriteLine($"Subccriber XYZ subcribed to [{from}-{to}]");
-            this.Callback.PushTopic(new List<Alarm>()); //TEST
+            this.Callback.PushTopic(testData); 
         }
 
         ISubscribeCallback Callback

@@ -10,9 +10,21 @@ namespace Subscriber
 {
     public class SubscriberCallbackHandler : ISubscribeCallback
     {
+        private List<Alarm> _alarms;
+
+        public SubscriberCallbackHandler()
+        {
+            _alarms = new List<Alarm>();
+        }
+
+
         public void PushTopic(List<Alarm> alarms)
         {
-            throw new NotImplementedException();
+            foreach(Alarm alarm in alarms)
+            {
+                _alarms.Add(alarm);
+                Console.WriteLine($"Subscriber received {alarm.ToString()}");
+            }
         }
 
     }
