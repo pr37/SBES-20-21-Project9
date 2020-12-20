@@ -9,9 +9,9 @@ namespace Subscriber
 {
     public static class AlarmValidator
     {
-        static bool Validate(Alarm alarm) //how can an alarm be invalid?
+        public static bool Validate(Alarm alarm) //how can an alarm be invalid?
         {
-            if (alarm.Risk < 0 || alarm.Risk > 100) return false;
+            if (alarm.Risk < Alarm.MinRisk || alarm.Risk > Alarm.MaxRisk) return false;
 
             if (alarm.Message == null || alarm.Message == string.Empty)
             {

@@ -22,8 +22,15 @@ namespace Subscriber
         {
             foreach(Alarm alarm in alarms)
             {
-                _alarms.Add(alarm);
-                Console.WriteLine($"Subscriber received {alarm.ToString()}");
+                if (AlarmValidator.Validate(alarm))
+                {
+                    _alarms.Add(alarm);
+                    Console.WriteLine($"Subscriber received {alarm.ToString()}");
+                }
+                else
+                {
+                    Console.WriteLine($"Alarm: {alarm.ToString()} ; rejected.");
+                }
             }
         }
 
