@@ -56,5 +56,10 @@
       <LastGenOutput>AlarmMessages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="sertifikati\Publisher.cer" />
+    <None Include="sertifikati\PubSubEngine.cer" />
+    <None Include="sertifikati\Subscriber.cer" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
