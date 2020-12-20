@@ -47,7 +47,6 @@
     <Compile Include="AlarmValidator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Subscriber.cs" />
     <Compile Include="SubscriberCallbackHandler.cs" />
     <Compile Include="SubscriberCallbackProxy.cs" />
   </ItemGroup>
