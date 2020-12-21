@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Contracts;
 using Models;
+using SecurityManager;
 
 namespace Subscriber
 {
@@ -17,13 +18,13 @@ namespace Subscriber
             _alarms = new List<Alarm>();
         }
 
-
+        
         public void PushTopic(List<Alarm> alarms)
         {
             foreach(Alarm alarm in alarms)
             {
                 _alarms.Add(alarm);
-                Console.WriteLine($"Subscriber received {alarm.ToString()}");
+                Console.WriteLine($"Subscriber received {alarm.ToString()}");                
             }
         }
 

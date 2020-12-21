@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
+using System.ServiceModel.Description;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,6 +23,15 @@ namespace PubSubEngine
             string addressSub = "net.tcp://localhost:9999/Subscribers";
             ServiceHost hostSub = new ServiceHost(typeof(SubService));
             hostSub.AddServiceEndpoint(typeof(ISubscribe), binding, addressSub);
+
+            // Podesavanje Audit Behaviour-a
+            ServiceSecurityAuditBehavior newAudit = new ServiceSecurityAuditBehavior();
+            newAudit.AuditLogLocation = AuditLogLocation.Application;
+            newAudit.ServiceAuthorizationAuditLevel = AuditLevel.Success;
+
+            // Brisanje default-nog i dodavanje novog Audit Behaviour-a
+            hostSub.Description.Behaviors.Remove<ServiceSecurityAuditBehavior>();
+            hostSub.Description.Behaviors.Add(newAudit);
 
             try
             {

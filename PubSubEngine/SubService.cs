@@ -6,6 +6,7 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using Models;
+using SecurityManager;
 
 namespace PubSubEngine
 {
@@ -20,7 +21,7 @@ namespace PubSubEngine
                 new Alarm(DateTime.Now, 1 , AlarmMessagesTypes.LowPrio),
                 new Alarm(DateTime.Now, 53, AlarmMessagesTypes.StandardPrio)
             };
-            Console.WriteLine($"Subccriber XYZ subcribed to [{from}-{to}]");
+            Console.WriteLine($"Subccriber XYZ subcribed to [{from}-{to}]");            
             this.Callback.PushTopic(testData); 
         }
 

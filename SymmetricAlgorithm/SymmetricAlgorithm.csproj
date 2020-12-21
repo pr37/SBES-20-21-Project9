@@ -4,17 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{93FACB35-81CB-4433-8FBA-057444D87DB7}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>PubSubEngine</RootNamespace>
-    <AssemblyName>PubSubEngine</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <ProjectGuid>{860C5DBF-63D3-44DF-9D05-7576D3716FCB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SymmetricAlgorithm</RootNamespace>
+    <AssemblyName>SymmetricAlgorithm</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +23,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -35,7 +33,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,30 +41,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="AES_in_ECB_algorithm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PubService.cs" />
-    <Compile Include="SubService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Contracts\Contracts.csproj">
-      <Project>{7cf77885-d6a4-4f2b-a820-71f089891f62}</Project>
-      <Name>Contracts</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Models\Models.csproj">
-      <Project>{31730FFE-2B0E-49DA-8FCB-4614547717D1}</Project>
+      <Project>{31730ffe-2b0e-49da-8fcb-4614547717d1}</Project>
       <Name>Models</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SecurityManager\SecurityManager.csproj">
-      <Project>{223C3DE5-676D-4C1B-8583-F348AA2AE6C6}</Project>
-      <Name>SecurityManager</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SymmetricAlgorithmAES\SymmetricAlgorithmAES.csproj">
-      <Project>{0704b3f6-fc08-480e-858a-d3ac32e226a5}</Project>
-      <Name>SymmetricAlgorithmAES</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
