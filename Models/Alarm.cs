@@ -23,6 +23,7 @@ namespace Models
     }
 
     [DataContract]
+    [Serializable]
     public class Alarm
     {
         [DataMember]
@@ -33,7 +34,7 @@ namespace Models
 
 
         [DataMember]
-        public DateTime CreationTime { get; private set; }
+        public DateTime CreationTime { get;  set; }
 
 
         [DataMember]
@@ -43,7 +44,7 @@ namespace Models
         [DataMember]
         public int Risk {
             get { return _risk; }
-            private set
+             set
             {
                 if (value < 1 || value > 100)
                 {
@@ -54,7 +55,13 @@ namespace Models
         }
 
         [DataMember]
-        public string Message { get; private set; }
+        public string Message { get;  set; }
+
+
+        public Alarm()
+        {
+
+        }
 
         public Alarm(DateTime creation, int risk, AlarmMessagesTypes type)
         {

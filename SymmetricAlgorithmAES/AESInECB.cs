@@ -14,7 +14,6 @@ namespace SymmetricAlgorithmAES
     {
         public static byte[] EncriptAlarm(Alarm alarm, string secretKey)
         {
-            byte[] kako = (byte[])alarm;
             byte[] AlarmInByteArr = ObjectToByteArray(alarm);
             byte[] encryptedAlarm = null;
 
@@ -22,7 +21,7 @@ namespace SymmetricAlgorithmAES
             {
                 Key = ASCIIEncoding.ASCII.GetBytes(secretKey),
                 Mode = CipherMode.ECB,
-                Padding = PaddingMode.None
+                Padding = PaddingMode.PKCS7
             };
 
             ICryptoTransform encryptTransform = aesCryptoProvider.CreateEncryptor();
@@ -32,6 +31,7 @@ namespace SymmetricAlgorithmAES
                 using (CryptoStream cryptoStream = new CryptoStream(memoryStream, encryptTransform, CryptoStreamMode.Write))
                 {
                     cryptoStream.Write(AlarmInByteArr, 0, AlarmInByteArr.Length);
+                    cryptoStream.FlushFinalBlock();
                     encryptedAlarm = memoryStream.ToArray();
                 }
             }
@@ -64,7 +64,7 @@ namespace SymmetricAlgorithmAES
 
             decryptedAlarm = (Alarm)ByteArrayToObject(decryptedAlarmInByteArr);
 
-            return null;
+            return decryptedAlarm;
         }
 
         // Convert an object to a byte array

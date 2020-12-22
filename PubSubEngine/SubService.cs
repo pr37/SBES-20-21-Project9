@@ -22,7 +22,29 @@ namespace PubSubEngine
                 new Alarm(DateTime.Now, 53, AlarmMessagesTypes.StandardPrio)
             };
             Console.WriteLine($"Subccriber XYZ subcribed to [{from}-{to}]");            
-            this.Callback.PushTopic(testData); 
+            this.Callback.PushTopic(testData);
+
+            try
+            {
+                Alarm alarm1 = new Alarm(DateTime.Now, 20, AlarmMessagesTypes.LowPrio);
+
+                string keyFile = "SecretKey.txt";            //secret key storage
+                ///Generate secret key for appropriate symmetric algorithm and store it to 'keyFile' for further usage
+                string eSecretKey = SecretKey.GenerateKey();
+                SecretKey.StoreKey(eSecretKey, keyFile);  // storovanje ovog kljuca 
+
+                byte[] encryptedAlarm = SymmetricAlgorithmAES.AESInECB.EncriptAlarm(alarm1, eSecretKey);
+
+                Alarm decryptedAlarm = SymmetricAlgorithmAES.AESInECB.DecryptAlarm(encryptedAlarm, SecretKey.LoadKey(keyFile));
+
+                Console.WriteLine("Enkriptovano-dektiptovani alarm: " + decryptedAlarm.CreationTime + ", risk: " + decryptedAlarm.Risk + ", msg: " + decryptedAlarm.Message);
+            }
+            catch(Exception e){
+                Console.WriteLine(e);
+            }
+
+
+
         }
 
         ISubscribeCallback Callback
