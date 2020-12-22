@@ -49,6 +49,7 @@
     <Compile Include="Subscriber.cs" />
     <Compile Include="SubscriberCallbackHandler.cs" />
     <Compile Include="SubscriberCallbackProxy.cs" />
+    <Compile Include="Writer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
