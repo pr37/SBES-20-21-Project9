@@ -24,8 +24,9 @@ namespace PubSubEngine
             Console.WriteLine($"Subccriber XYZ subcribed to [{from}-{to}]");            
             this.Callback.PushTopic(testData);
 
+            // Just testing encryption/decryption (working!)
             try
-            {
+            {                
                 Alarm alarm1 = new Alarm(DateTime.Now, 20, AlarmMessagesTypes.LowPrio);
 
                 string keyFile = "SecretKey.txt";            //secret key storage
@@ -33,16 +34,45 @@ namespace PubSubEngine
                 string eSecretKey = SecretKey.GenerateKey();
                 SecretKey.StoreKey(eSecretKey, keyFile);  // storovanje ovog kljuca 
 
-                byte[] encryptedAlarm = SymmetricAlgorithmAES.AESInECB.EncriptAlarm(alarm1, eSecretKey);
+                byte[] encryptedAlarm = SymmetricAlgorithmAES.AESInECB.EncryptAlarm(alarm1, eSecretKey);
 
                 Alarm decryptedAlarm = SymmetricAlgorithmAES.AESInECB.DecryptAlarm(encryptedAlarm, SecretKey.LoadKey(keyFile));
 
                 Console.WriteLine("Enkriptovano-dektiptovani alarm: " + decryptedAlarm.CreationTime + ", risk: " + decryptedAlarm.Risk + ", msg: " + decryptedAlarm.Message);
             }
             catch(Exception e){
-                Console.WriteLine(e);
+                Console.WriteLine(e.Message);
+            }
+            
+            try
+            {
+                int integer1 = 4;                
+
+                string keyFile2 = "SecretKey2.txt";
+                string eSecretKey2 = SecretKey.GenerateKey();
+                SecretKey.StoreKey(eSecretKey2, keyFile2);                
+
+                byte[] encriptedInt1 = SymmetricAlgorithmAES.AESInECB.EncriptInteger(integer1, eSecretKey2);                
+
+                int decryptedInt1 = SymmetricAlgorithmAES.AESInECB.DecryptInteger(encriptedInt1, eSecretKey2);                ;
+
+                Console.WriteLine("Enkripto-dektiptovani int 1: " + decryptedInt1);                
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
             }
 
+            // Testiranje Audit-a , Admin access
+            try
+            {
+                Audit.DatabaseInput("uspelo?");
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
 
 
         }
