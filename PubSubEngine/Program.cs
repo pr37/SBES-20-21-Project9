@@ -31,6 +31,8 @@ namespace PubSubEngine
             hostPub.Credentials.ClientCertificate.Authentication.CustomCertificateValidator = new ServiceCertValidator();
 
             ///If CA doesn't have a CRL associated, WCF blocks every client because it cannot be validated
+            hostPub.Credentials.ClientCertificate.Authentication.CertificateValidationMode =
+                System.ServiceModel.Security.X509CertificateValidationMode.ChainTrust;
             hostPub.Credentials.ClientCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
 
             ///Set appropriate service's certificate on the host. Use CertManager class to obtain the certificate based on the "srvCertCN"
@@ -46,6 +48,8 @@ namespace PubSubEngine
             hostSub.Credentials.ClientCertificate.Authentication.CustomCertificateValidator = new ServiceCertValidator();
 
             ///If CA doesn't have a CRL associated, WCF blocks every client because it cannot be validated
+            hostSub.Credentials.ClientCertificate.Authentication.CertificateValidationMode =
+            System.ServiceModel.Security.X509CertificateValidationMode.ChainTrust;
             hostSub.Credentials.ClientCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
 
             ///Set appropriate service's certificate on the host. Use CertManager class to obtain the certificate based on the "srvCertCN"
