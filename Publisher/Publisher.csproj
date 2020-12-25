@@ -35,6 +35,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IdentityModel" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -59,6 +60,10 @@
     <ProjectReference Include="..\Models\Models.csproj">
       <Project>{31730FFE-2B0E-49DA-8FCB-4614547717D1}</Project>
       <Name>Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SecurityManager\SecurityManager.csproj">
+      <Project>{223C3DE5-676D-4C1B-8583-F348AA2AE6C6}</Project>
+      <Name>SecurityManager</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
