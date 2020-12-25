@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using System.Security.Principal;
 using System.ServiceModel;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Contracts;
+using Manager;
 using Models;
+using SecurityManager;
 
 namespace Publisher
 {
@@ -14,19 +18,24 @@ namespace Publisher
     {
 		IPublish factory;
 		public int PublishingInterval { get; set; } //milliseconds
+		public string signCertCN { get; set; }
 
         public Publisher(NetTcpBinding binding, EndpointAddress address)
 			: base(binding, address)
 		{
 			/// cltCertCN.SubjectName should be set to the client's username. .NET WindowsIdentity class provides information about Windows user running the given process
-			//string cltCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
+			string cltCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
 
-			//this.Credentials.ServiceCertificate.Authentication.CertificateValidationMode = System.ServiceModel.Security.X509CertificateValidationMode.Custom;
-			//this.Credentials.ServiceCertificate.Authentication.CustomCertificateValidator = new ClientCertValidator();
-			//this.Credentials.ServiceCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
+			/// Define the expected certificate for signing ("<username>_sign" is the expected subject name).
+			/// .NET WindowsIdentity class provides information about Windows user running the given process
+			signCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name) + "_sign";
+
+			this.Credentials.ServiceCertificate.Authentication.CertificateValidationMode = System.ServiceModel.Security.X509CertificateValidationMode.Custom;
+			this.Credentials.ServiceCertificate.Authentication.CustomCertificateValidator = new ClientCertValidator();
+			this.Credentials.ServiceCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
 
 			/// Set appropriate client's certificate on the channel. Use CertManager class to obtain the certificate based on the "cltCertCN"
-			//this.Credentials.ClientCertificate.Certificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, cltCertCN);
+			this.Credentials.ClientCertificate.Certificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, cltCertCN);
 
 			factory = this.CreateChannel();
 		}
@@ -40,7 +49,7 @@ namespace Publisher
 				AlarmMessagesTypes msg = GenerateMessageType(risk);
 				alarm = new Alarm(DateTime.Now, risk, msg);
 
-				this.Publish(alarm);
+				this.Publish(alarm,CreateSignature(alarm.Message,signCertCN));
 
 				Thread.Sleep(PublishingInterval);
             }
@@ -80,16 +89,24 @@ namespace Publisher
 			this.Close();
 		}
 
-        public void Publish(Alarm alarm)
+        public void Publish(Alarm alarm, byte[] signature)
         {
 			try
 			{
-				factory.Publish(alarm);
+				factory.Publish(alarm,signature);
 			}
 			catch (Exception e)
 			{
 				Console.WriteLine("[Publish] ERROR = {0}", e.Message);
 			}
+		}
+
+		public byte[] CreateSignature(string message, string signCertCN)
+        {
+			X509Certificate2 certificateSign = CertManager.GetCertificateFromStorage(StoreName.My,
+					StoreLocation.LocalMachine, signCertCN);
+
+			return DigitalSignature.Create(message, HashAlgorithm.SHA1, certificateSign);
 		}
     }
 }

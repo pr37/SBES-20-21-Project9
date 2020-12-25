@@ -35,6 +35,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IdentityModel" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -64,7 +65,7 @@
       <Name>Models</Name>
     </ProjectReference>
     <ProjectReference Include="..\SecurityManager\SecurityManager.csproj">
-      <Project>{223c3de5-676d-4c1b-8583-f348aa2ae6c6}</Project>
+      <Project>{223C3DE5-676D-4C1B-8583-F348AA2AE6C6}</Project>
       <Name>SecurityManager</Name>
     </ProjectReference>
   </ItemGroup>
