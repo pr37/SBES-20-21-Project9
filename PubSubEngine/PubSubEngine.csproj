@@ -49,6 +49,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PubService.cs" />
+    <Compile Include="Repository.cs" />
     <Compile Include="ServiceHostHelper.cs" />
     <Compile Include="SubService.cs" />
   </ItemGroup>
