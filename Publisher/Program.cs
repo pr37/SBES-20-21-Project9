@@ -11,7 +11,7 @@ namespace Publisher
     {
         static void Main(string[] args)
         {
-            //TODO CERTS
+
 
             NetTcpBinding binding = new NetTcpBinding();
             EndpointAddress address = new EndpointAddress(new Uri("net.tcp://localhost:9999/Publishers"));
