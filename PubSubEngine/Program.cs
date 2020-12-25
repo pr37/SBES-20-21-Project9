@@ -17,7 +17,8 @@ namespace PubSubEngine
         static void Main(string[] args)
         {
             /// srvCertCN.SubjectName should be set to the service's username. .NET WindowsIdentity class provides information about Windows user running the given process
-		    string srvCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
+		    //string srvCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
+            string srvCertCN = "PubSubEngine"; //POKRENI SA USER PubSubEngine 
 
             NetTcpBinding binding = new NetTcpBinding();
             binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
@@ -31,8 +32,8 @@ namespace PubSubEngine
             hostPub.Credentials.ClientCertificate.Authentication.CustomCertificateValidator = new ServiceCertValidator();
 
             ///If CA doesn't have a CRL associated, WCF blocks every client because it cannot be validated
-            hostPub.Credentials.ClientCertificate.Authentication.CertificateValidationMode =
-                System.ServiceModel.Security.X509CertificateValidationMode.ChainTrust;
+            //hostPub.Credentials.ClientCertificate.Authentication.CertificateValidationMode =
+            //    System.ServiceModel.Security.X509CertificateValidationMode.ChainTrust;
             hostPub.Credentials.ClientCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
 
             ///Set appropriate service's certificate on the host. Use CertManager class to obtain the certificate based on the "srvCertCN"
@@ -48,8 +49,8 @@ namespace PubSubEngine
             hostSub.Credentials.ClientCertificate.Authentication.CustomCertificateValidator = new ServiceCertValidator();
 
             ///If CA doesn't have a CRL associated, WCF blocks every client because it cannot be validated
-            hostSub.Credentials.ClientCertificate.Authentication.CertificateValidationMode =
-            System.ServiceModel.Security.X509CertificateValidationMode.ChainTrust;
+            //hostSub.Credentials.ClientCertificate.Authentication.CertificateValidationMode =
+            //System.ServiceModel.Security.X509CertificateValidationMode.ChainTrust;
             hostSub.Credentials.ClientCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
 
             ///Set appropriate service's certificate on the host. Use CertManager class to obtain the certificate based on the "srvCertCN"
