@@ -12,6 +12,6 @@ namespace Contracts
     public interface IPublish
     {
         [OperationContract]
-        void Publish(Alarm alarm); //TODO: ovo treba biti digitalno potpisano
+        void Publish(Alarm alarm, byte[] sign); 
     }
 }
