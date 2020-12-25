@@ -58,8 +58,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="sertifikati\Publisher.cer" />
+    <None Include="sertifikati\Publisher.pfx" />
+    <None Include="sertifikati\Publisher.pvk" />
     <None Include="sertifikati\PubSubEngine.cer" />
+    <None Include="sertifikati\PubSubEngine.pvk" />
     <None Include="sertifikati\Subscriber.cer" />
+    <None Include="sertifikati\Subscriber.pfx" />
+    <None Include="sertifikati\Subscriber.pvk" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
