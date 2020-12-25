@@ -6,7 +6,7 @@ using System.IdentityModel.Selectors;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Principal;
 
-namespace Manager
+namespace SecurityManager
 {
 	public class ServiceCertValidator : X509CertificateValidator
 	{

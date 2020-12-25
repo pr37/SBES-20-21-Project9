@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Manager
+namespace SecurityManager
 {
 	public class Formatter
 	{
