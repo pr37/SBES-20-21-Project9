@@ -8,39 +8,23 @@ using System.Threading.Tasks;
 
 namespace PubSubEngine
 {
-    public class ServiceHostHelper
+    public static class ServiceHostHelper
     {
-        public ServiceHost host { get; set; }
-        public ServiceHostHelper(string address, Type serviceType, Type contractType, string certName)
-        {
+
+        public static ServiceHost PrepareHost(string address, Type serviceType, Type contractType, string certName) {
+
             NetTcpBinding binding = new NetTcpBinding();
             binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
-            host = new ServiceHost(serviceType);
+
+            ServiceHost host = new ServiceHost(serviceType);
             host.AddServiceEndpoint(contractType, binding, address);
 
             CertificateHelper certificateHelper = new CertificateHelper();
-            certificateHelper.SetCertificate(host,certName);
+            certificateHelper.SetCertificate(host, certName);
 
-            OpenService();
+            return host;
         }
 
-        public void OpenService()
-        {
-            try
-            {
-                host.Open();
-                Console.WriteLine("Service is started.\nPress <enter> to stop ...");
-                Console.ReadLine();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("[ERROR] {0}", e.Message);
-                Console.WriteLine("[StackTrace] {0}", e.StackTrace);
-            }
-            finally
-            {
-                host.Close();
-            }
-        }
+
     }
 }

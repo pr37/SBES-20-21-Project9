@@ -20,8 +20,8 @@ namespace SecurityManager
 		{
 			/// This will take service's certificate from storage
 			X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine,
-				//Formatter.ParseName(WindowsIdentity.GetCurrent().Name)); VRATI NA OVO
-				"PubSubEngine");
+				//Formatter.ParseName(WindowsIdentity.GetCurrent().Name)); TODO vrati
+				"PubSubService");
 
 			if (!certificate.Issuer.Equals(srvCert.Issuer))
 			{

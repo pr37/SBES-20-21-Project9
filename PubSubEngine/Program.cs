@@ -18,15 +18,39 @@ namespace PubSubEngine
         {
             /// srvCertCN.SubjectName should be set to the service's username. .NET WindowsIdentity class provides information about Windows user running the given process
             //string srvCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
-            string srvCertCN = "PubSubService"; //POKRENI SA USER PubSubEngine 
+            string srvCertCN = "PubSubService"; 
 
 
             string addressPub = "net.tcp://localhost:9999/Publishers";
-            ServiceHostHelper pubHelper = new ServiceHostHelper(addressPub, typeof(PubService), typeof(IPublish), srvCertCN);
+            ServiceHost pubHost = ServiceHostHelper.PrepareHost(addressPub, typeof(PubService), typeof(IPublish), srvCertCN);
 
             string addressSub = "net.tcp://localhost:9999/Subscribers";
-            ServiceHostHelper subHelper = new ServiceHostHelper(addressSub, typeof(SubService), typeof(ISubscribe), srvCertCN);
+            ServiceHost subHost = ServiceHostHelper.PrepareHost(addressSub, typeof(SubService), typeof(ISubscribe), srvCertCN);
 
+            OpenService(subHost, pubHost);
+        }
+
+
+        public static void OpenService(ServiceHost subHost, ServiceHost pubHost)
+        {
+            try
+            {
+                pubHost.Open();
+                Console.WriteLine("Publisher host has started.");
+                subHost.Open();
+                Console.WriteLine("Subscriber host has started.\nPress <enter> to stop ...");
+                Console.ReadLine();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("[ERROR] {0}", e.Message);
+                Console.WriteLine("[StackTrace] {0}", e.StackTrace);
+            }
+            finally
+            {
+                pubHost.Close();
+                subHost.Close();
+            }
         }
     }
 }
