@@ -27,15 +27,25 @@ namespace Subscriber
 
         public void PushTopic(Dictionary<byte[],byte[]> signedEncryptedAlarms)
         {
-            List<Alarm> alarms = new List<Alarm>();
+            /*
+            Dictionary<byte[], Alarm> alarms = new Dictionary<byte[], Alarm>();
+
+           
             foreach (byte[] sign in signedEncryptedAlarms.Keys)
             {
                 alarms.Add(AESInECB.DecryptAlarm(signedEncryptedAlarms[sign], SecretKey.LoadKey(secretKeyPath)));
             }
+            */
 
-            foreach (Alarm alarm in alarms)
+
+            foreach (var signedAlarmPair in signedEncryptedAlarms)
             {
-                if (AlarmValidator.Validate(alarm)) //TODO izmeni ovaj validator da prima sign i da validira ili ga samo ovde validiraj
+                byte[] encryptedAlarm = signedAlarmPair.Value;
+                byte[] signature = signedAlarmPair.Key;
+                Alarm alarm = AESInECB.DecryptAlarm(encryptedAlarm, SecretKey.LoadKey(secretKeyPath));
+               
+
+                if (AlarmValidator.Validate(alarm, encryptedAlarm, signature)) 
                 {
                     _alarms.Add(alarm);
                     Console.WriteLine($"Subscriber received {alarm.ToString()}");
@@ -43,7 +53,7 @@ namespace Subscriber
                 }
                 else
                 {
-                    Console.WriteLine($"Alarm: {alarm.ToString()} ; rejected.");
+                    Console.WriteLine($"Alarm: {alarm} ; rejected.");
                 }
             }
         }
