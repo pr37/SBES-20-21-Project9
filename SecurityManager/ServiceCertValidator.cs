@@ -10,11 +10,7 @@ namespace SecurityManager
 {
 	public class ServiceCertValidator : X509CertificateValidator
 	{
-		/// <summary>
-		/// Implementation of a custom certificate validation on the service side.
-		/// Service should consider certificate valid if its issuer is the same as the issuer of the service.
-		/// If validation fails, throw an exception with an adequate message.
-		/// </summary>
+		//servis validira klijenta, klijent treba da bude issued od servisa
 		/// <param name="certificate"> certificate to be validate </param>
 		public override void Validate(X509Certificate2 certificate)
 		{
@@ -23,7 +19,7 @@ namespace SecurityManager
 				//Formatter.ParseName(WindowsIdentity.GetCurrent().Name)); TODO vrati
 				"PubSubService");
 
-
+			Console.WriteLine($"SERVICE VALIDATING {certificate.Subject}:{certificate.Issuer} WITH {srvCert.Subject}:{srvCert.Issuer}");
 		
 
 			if (!certificate.Issuer.Equals(srvCert.Issuer))
@@ -36,6 +32,8 @@ namespace SecurityManager
             {
 				throw new Exception($"Certificate expired on [{expirationDate}]");
             }
+
+			Console.WriteLine("SERVICE VALIDATING SUCCESS");
 		}
 	}
 }

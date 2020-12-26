@@ -21,8 +21,8 @@ namespace Publisher
 
 
 		private static readonly string secretKeyPath = "../../../Models/secretKey.txt";
-		//private static readonly string signCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name) + "_sign";
-		private static readonly string signCertCN = "Publisher" + "_sign";
+		private static readonly string signCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name) + "_sign";
+		//private static readonly string signCertCN = "Publisher" + "_sign";
 
 
 		public Publisher(NetTcpBinding binding, EndpointAddress address)
