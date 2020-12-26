@@ -57,6 +57,7 @@ namespace Publisher
 				try
                 {
 					this.Publish(alarm, null);
+					Console.WriteLine($"Published: {alarm}");
 				}
 				catch(Exception e)
                 {
