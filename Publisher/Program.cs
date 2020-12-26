@@ -1,4 +1,4 @@
-﻿using Manager;
+﻿using SecurityManager;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +14,7 @@ namespace Publisher
         static void Main(string[] args)
         {
             /// Define the expected service certificate. It is required to establish cmmunication using certificates.
-            string srvCertCN = "PubSubEngine";
+            string srvCertCN = "Publisher";
 
             NetTcpBinding binding = new NetTcpBinding();
             binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;

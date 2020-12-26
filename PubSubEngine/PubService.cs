@@ -1,5 +1,4 @@
 ﻿using Contracts;
-using Manager;
 using Models;
 using SecurityManager;
 using System;

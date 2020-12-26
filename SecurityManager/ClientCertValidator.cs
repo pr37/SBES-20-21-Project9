@@ -5,7 +5,7 @@ using System.Text;
 using System.IdentityModel.Selectors;
 using System.Security.Cryptography.X509Certificates;
 
-namespace Manager
+namespace SecurityManager
 {
 	public class ClientCertValidator : X509CertificateValidator
 	{

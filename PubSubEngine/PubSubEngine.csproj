@@ -45,9 +45,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CertificateHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PubService.cs" />
+    <Compile Include="ServiceHostHelper.cs" />
     <Compile Include="SubService.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -63,7 +65,7 @@
       <Name>Models</Name>
     </ProjectReference>
     <ProjectReference Include="..\SecurityManager\SecurityManager.csproj">
-      <Project>{223C3DE5-676D-4C1B-8583-F348AA2AE6C6}</Project>
+      <Project>{223c3de5-676d-4c1b-8583-f348aa2ae6c6}</Project>
       <Name>SecurityManager</Name>
     </ProjectReference>
     <ProjectReference Include="..\SymmetricAlgorithmAES\SymmetricAlgorithmAES.csproj">

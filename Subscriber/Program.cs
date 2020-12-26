@@ -1,11 +1,11 @@
-﻿using Manager;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using SecurityManager;
 
 namespace Subscriber
 {
@@ -14,7 +14,7 @@ namespace Subscriber
         static void Main(string[] args)
         {
             /// Define the expected service certificate. It is required to establish cmmunication using certificates.
-            string srvCertCN = "PubSubEngine";
+            string srvCertCN = "Subscriber";
 
             NetTcpBinding binding = new NetTcpBinding();
             binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
