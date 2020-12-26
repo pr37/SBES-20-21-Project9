@@ -43,6 +43,7 @@ namespace PubSubEngine
             }
             */
             Alarm alarm = AESInECB.DecryptAlarm(encryptedAlarm, SecretKey.LoadKey(secretKeyPath));
+            Repository.alarms.Add(alarm);
             Console.WriteLine(alarm);
         }
     }

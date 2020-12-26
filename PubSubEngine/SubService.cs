@@ -22,7 +22,7 @@ namespace PubSubEngine
             From = from; To = to;
             //List<Alarm> data = Repository.alarms.FindAll(x => x.Risk > from && x.Risk < to);
             Console.WriteLine($"Subccriber XYZ subcribed to [{from}-{to}]");
-            Thread thread = new Thread(new ThreadStart(SendDelta));
+            SendDelta();
         }
 
         public void SendDelta()
