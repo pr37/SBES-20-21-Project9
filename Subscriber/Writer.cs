@@ -18,7 +18,7 @@ namespace Subscriber
 
         public void Write(string text)
         {
-            using (StreamWriter sw = new StreamWriter("write.txt",true)) 
+            using (StreamWriter sw = new StreamWriter(Path,true)) 
             {
                 sw.WriteLine(text);
             }
