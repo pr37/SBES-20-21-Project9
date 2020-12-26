@@ -20,6 +20,6 @@ namespace Contracts
     public interface ISubscribeCallback
     {
         [OperationContract(IsOneWay = true)]
-        void PushTopic(List<Alarm> alarms);
+        void PushTopic(List<byte[]> encryptedAlarms);
     }
 }

@@ -29,7 +29,14 @@ namespace PubSubEngine
                 if (data.Count != 0)
                 {
                     Timestamp = DateTime.Now;
-                    this.Callback.PushTopic(data);
+
+                    List<byte[]> encryptedAlarms = new List<byte[]>();
+                    foreach(Alarm alarm in data)
+                    {
+                        encryptedAlarms.Add(AESInECB.EncryptAlarm(alarm, SecretKey.LoadKey(secretKeyPath)));
+                    }
+
+                    this.Callback.PushTopic(encryptedAlarms);
                     data.Clear();
                 }
                 Thread.Sleep(3000);
