@@ -14,7 +14,7 @@ namespace Subscriber
         static void Main(string[] args)
         {
             /// Define the expected service certificate. It is required to establish cmmunication using certificates.
-            string srvCertCN = "Subscriber";
+            string srvCertCN = "PubSubService";
 
             NetTcpBinding binding = new NetTcpBinding();
             binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
