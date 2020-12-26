@@ -22,11 +22,11 @@ namespace PubSubEngine
             clientName = Formatter.ParseName(ServiceSecurityContext.Current.PrimaryIdentity.Name);
 
             clientNameSign = clientName + "_sign";
-            certificate = CertManager.GetCertificateFromStorage(StoreName.TrustedPeople,
-                StoreLocation.LocalMachine, clientNameSign);
+            //certificate = CertManager.GetCertificateFromStorage(StoreName.TrustedPeople, StoreLocation.LocalMachine, clientNameSign);
         }
         public void Publish(Alarm alarm, byte[] signature)
         {
+            /*
             if (DigitalSignature.Verify(alarm.Message, HashAlgorithm.SHA1, signature, certificate))
             {
                 Console.WriteLine("Sign is valid for: "+ alarm);
@@ -36,7 +36,8 @@ namespace PubSubEngine
             {
                 Console.WriteLine("Sign is INVALID for: "+ alarm);
             }
-           // Console.WriteLine(alarm);
+            */
+            Console.WriteLine(alarm);
         }
     }
 }

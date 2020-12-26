@@ -23,13 +23,17 @@ namespace Publisher
 			: base(binding, address)
 		{
 			/// cltCertCN.SubjectName should be set to the client's username. .NET WindowsIdentity class provides information about Windows user running the given process
-			//string cltCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
+			//string cltCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name); //TODO vrati
 			string cltCertCN = "Publisher";
-			signCertCN = cltCertCN;
+
+
+			//signCertCN = cltCertCN;
+
+
 			/// Define the expected certificate for signing ("<username>_sign" is the expected subject name).
 			/// .NET WindowsIdentity class provides information about Windows user running the given process
 			//signCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name) + "_sign";
-			
+
 			this.Credentials.ServiceCertificate.Authentication.CertificateValidationMode = System.ServiceModel.Security.X509CertificateValidationMode.Custom;
 			this.Credentials.ServiceCertificate.Authentication.CustomCertificateValidator = new ClientCertValidator();
 			this.Credentials.ServiceCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
@@ -49,7 +53,17 @@ namespace Publisher
 				AlarmMessagesTypes msg = GenerateMessageType(risk);
 				alarm = new Alarm(DateTime.Now, risk, msg);
 
-				this.Publish(alarm,CreateSignature(alarm.Message,signCertCN));
+				//this.Publish(alarm,CreateSignature(alarm.Message,signCertCN)); // TODO
+				try
+                {
+					this.Publish(alarm, null);
+				}
+				catch(Exception e)
+                {
+					throw new Exception(e.Message);
+                }
+
+
 
 				Thread.Sleep(PublishingInterval);
             }
@@ -86,7 +100,11 @@ namespace Publisher
 				factory = null;
 			}
 
-			this.Close();
+			try
+            {
+				this.Close();
+			}
+			catch { }
 		}
 
         public void Publish(Alarm alarm, byte[] signature)
@@ -98,6 +116,7 @@ namespace Publisher
 			catch (Exception e)
 			{
 				Console.WriteLine("[Publish] ERROR = {0}", e.Message);
+				throw new Exception(e.Message);
 			}
 		}
 

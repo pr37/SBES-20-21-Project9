@@ -14,7 +14,7 @@ namespace Publisher
         static void Main(string[] args)
         {
             /// Define the expected service certificate. It is required to establish cmmunication using certificates.
-            string srvCertCN = "Publisher";
+            string srvCertCN = "PubSubService";
 
             NetTcpBinding binding = new NetTcpBinding();
             binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
@@ -37,7 +37,16 @@ namespace Publisher
                 }
 
                 proxy.PublishingInterval = interval;
-                proxy.StartPublishing();
+
+                try
+                {
+                    proxy.StartPublishing();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+
 
                 Console.WriteLine("Communication aborted. Press <enter> to continue ...");
                 Console.ReadLine();
