@@ -33,8 +33,8 @@ namespace PubSubEngine
         {
             while (true)
             {
-                Dictionary<byte[],Alarm> data = (Dictionary<byte[], Alarm>)Repository.signedAlarms.Where(
-                    x => x.Value.Risk >= From && x.Value.Risk <= To && x.Value.CreationTime > Timestamp);
+                Dictionary<byte[],Alarm> data = Repository.signedAlarms.Where(
+                    x => x.Value.Risk >= From && x.Value.Risk <= To && x.Value.CreationTime > Timestamp).ToDictionary(x => x.Key, x=> x.Value);
                 if (data.Count != 0)
                 {
                     Timestamp = DateTime.Now;
