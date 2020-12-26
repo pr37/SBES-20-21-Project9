@@ -18,11 +18,14 @@ namespace Publisher
     {
 		IPublish factory;
 		public int PublishingInterval { get; set; } //milliseconds
-		public string signCertCN { get; set; }
+
 
 		private static readonly string secretKeyPath = "../../../Models/secretKey.txt";
+		//private static readonly string signCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name) + "_sign";
+		private static readonly string signCertCN = "Publisher" + "_sign";
 
-        public Publisher(NetTcpBinding binding, EndpointAddress address)
+
+		public Publisher(NetTcpBinding binding, EndpointAddress address)
 			: base(binding, address)
 		{
 			/// cltCertCN.SubjectName should be set to the client's username. .NET WindowsIdentity class provides information about Windows user running the given process
@@ -60,6 +63,8 @@ namespace Publisher
 				try
                 {
 					byte[] encrytpedAlarm = AESInECB.EncryptAlarm(alarm, SecretKey.LoadKey(secretKeyPath));
+					byte[] signature = CreateSignature(encrytpedAlarm, signCertCN);
+
 					this.Publish(encrytpedAlarm, null);
 					Console.WriteLine($"Published: {alarm}");
 				}
@@ -113,12 +118,12 @@ namespace Publisher
 		}
 
 
-		public byte[] CreateSignature(string message, string signCertCN)
+		public byte[] CreateSignature(byte[] data, string signCertCN)
         {
 			X509Certificate2 certificateSign = CertManager.GetCertificateFromStorage(StoreName.My,
 					StoreLocation.LocalMachine, signCertCN);
 
-			return DigitalSignature.Create(message, HashAlgorithm.SHA1, certificateSign);
+			return DigitalSignature.Create(data, HashAlgorithm.SHA1, certificateSign);
 		}
 
         public void Publish(byte[] encryptedAlarm, byte[] sign)
