@@ -12,7 +12,7 @@ namespace Contracts
     public interface ISubscribe
     {
         [OperationContract(IsOneWay = true)]
-        void Subscribe(int from, int to);
+        void Subscribe(byte[] encryptedFrom, byte[] encryptedTo);
 
     }
 

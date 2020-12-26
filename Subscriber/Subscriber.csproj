@@ -68,6 +68,10 @@
       <Project>{223C3DE5-676D-4C1B-8583-F348AA2AE6C6}</Project>
       <Name>SecurityManager</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SymmetricAlgorithmAES\SymmetricAlgorithmAES.csproj">
+      <Project>{0704B3F6-FC08-480E-858A-D3AC32E226A5}</Project>
+      <Name>SymmetricAlgorithmAES</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
