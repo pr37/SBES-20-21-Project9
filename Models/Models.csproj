@@ -66,5 +66,8 @@
     <None Include="sertifikati\Subscriber.pfx" />
     <None Include="sertifikati\Subscriber.pvk" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="secretKey.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

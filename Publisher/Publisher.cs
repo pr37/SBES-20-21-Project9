@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Contracts;
 using Models;
 using SecurityManager;
+using SymmetricAlgorithmAES;
 
 namespace Publisher
 {
@@ -18,6 +19,8 @@ namespace Publisher
 		IPublish factory;
 		public int PublishingInterval { get; set; } //milliseconds
 		public string signCertCN { get; set; }
+
+		private static readonly string secretKeyPath = "../../../Models/secretKey.txt";
 
         public Publisher(NetTcpBinding binding, EndpointAddress address)
 			: base(binding, address)
@@ -56,7 +59,8 @@ namespace Publisher
 				//this.Publish(alarm,CreateSignature(alarm.Message,signCertCN)); // TODO
 				try
                 {
-					this.Publish(alarm, null);
+					byte[] encrytpedAlarm = AESInECB.EncryptAlarm(alarm, SecretKey.LoadKey(secretKeyPath));
+					this.Publish(encrytpedAlarm, null);
 					Console.WriteLine($"Published: {alarm}");
 				}
 				catch(Exception e)
@@ -108,18 +112,6 @@ namespace Publisher
 			catch { }
 		}
 
-        public void Publish(Alarm alarm, byte[] signature)
-        {
-			try
-			{
-				factory.Publish(alarm,signature);
-			}
-			catch (Exception e)
-			{
-				Console.WriteLine("[Publish] ERROR = {0}", e.Message);
-				throw new Exception(e.Message);
-			}
-		}
 
 		public byte[] CreateSignature(string message, string signCertCN)
         {
@@ -127,6 +119,19 @@ namespace Publisher
 					StoreLocation.LocalMachine, signCertCN);
 
 			return DigitalSignature.Create(message, HashAlgorithm.SHA1, certificateSign);
+		}
+
+        public void Publish(byte[] encryptedAlarm, byte[] sign)
+        {
+			try
+			{
+				factory.Publish(encryptedAlarm, sign);
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine("[Publish] ERROR = {0}", e.Message);
+				throw new Exception(e.Message);
+			}
 		}
     }
 }

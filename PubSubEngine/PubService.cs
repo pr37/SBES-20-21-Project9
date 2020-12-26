@@ -1,6 +1,7 @@
 ﻿using Contracts;
 using Models;
 using SecurityManager;
+using SymmetricAlgorithmAES;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,8 @@ namespace PubSubEngine
 {
     public class PubService : IPublish
     {
+        private static readonly string secretKeyPath = "../../../Models/secretKey.txt";
+
         public string clientName { get; set; }
         public string clientNameSign { get; set; }
         public X509Certificate2 certificate { get; set; }
@@ -24,7 +27,9 @@ namespace PubSubEngine
             clientNameSign = clientName + "_sign";
             //certificate = CertManager.GetCertificateFromStorage(StoreName.TrustedPeople, StoreLocation.LocalMachine, clientNameSign);
         }
-        public void Publish(Alarm alarm, byte[] signature)
+
+
+        public void Publish(byte[] encryptedAlarm, byte[] sign)
         {
             /*
             if (DigitalSignature.Verify(alarm.Message, HashAlgorithm.SHA1, signature, certificate))
@@ -37,6 +42,7 @@ namespace PubSubEngine
                 Console.WriteLine("Sign is INVALID for: "+ alarm);
             }
             */
+            Alarm alarm = AESInECB.DecryptAlarm(encryptedAlarm, SecretKey.LoadKey(secretKeyPath));
             Console.WriteLine(alarm);
         }
     }
