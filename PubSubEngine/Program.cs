@@ -18,7 +18,7 @@ namespace PubSubEngine
         {
             /// srvCertCN.SubjectName should be set to the service's username. .NET WindowsIdentity class provides information about Windows user running the given process
             //string srvCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
-            string srvCertCN = "PubSubEngine"; //POKRENI SA USER PubSubEngine 
+            string srvCertCN = "PubSubService"; //POKRENI SA USER PubSubEngine 
 
 
             string addressPub = "net.tcp://localhost:9999/Publishers";

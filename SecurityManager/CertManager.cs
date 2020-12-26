@@ -19,26 +19,32 @@ namespace SecurityManager
 		/// <returns> The requested certificate. If no valid certificate is found, returns null. </returns>
 		public static X509Certificate2 GetCertificateFromStorage(StoreName storeName, StoreLocation storeLocation, string subjectName)
 		{
-			X509Store store = new X509Store(storeName, storeLocation);
-			store.Open(OpenFlags.ReadOnly);
-
-			X509Certificate2Collection certCollection = store.Certificates.Find(X509FindType.FindBySubjectName, subjectName, false);
-
-			/// Check whether the subjectName of the certificate is exactly the same as the given "subjectName"
-			foreach (X509Certificate2 c in certCollection)
+			try
 			{
-				string CNmsg = string.Format("CN={0}", subjectName);
-				if (c.SubjectName.Name.Equals(CNmsg))
-				{
-					if (c is null)
-                    {
-						throw new Exception("Lik se drogira.");
-					}
-					return c;
-				}
-			}
+				X509Store store = new X509Store(storeName, storeLocation);
+				store.Open(OpenFlags.ReadOnly);
 
-			throw new Exception("NIJE NASAO SERTIFIKAT!");
+				X509Certificate2Collection certCollection = store.Certificates.Find(X509FindType.FindBySubjectName, subjectName, false);
+
+				/// Check whether the subjectName of the certificate is exactly the same as the given "subjectName"
+				foreach (X509Certificate2 c in certCollection)
+				{
+					string CNmsg = string.Format("CN={0}", subjectName);
+					if (c.SubjectName.Name.Equals(CNmsg))
+					{
+						if (c is null)
+						{
+							throw new Exception("Lik se drogira.");
+						}
+						return c;
+					}
+				}
+			} catch (Exception e)
+            {
+				throw e;
+            }
+			return null;
+			//throw new Exception("NIJE NASAO SERTIFIKAT!");
 		}
 
         /// <summary>

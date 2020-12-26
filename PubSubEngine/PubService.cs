@@ -30,12 +30,13 @@ namespace PubSubEngine
             if (DigitalSignature.Verify(alarm.Message, HashAlgorithm.SHA1, signature, certificate))
             {
                 Console.WriteLine("Sign is valid for: "+ alarm);
+                Repository.alarms.Add(alarm);
             }
             else
             {
                 Console.WriteLine("Sign is INVALID for: "+ alarm);
             }
-            Console.WriteLine(alarm);
+           // Console.WriteLine(alarm);
         }
     }
 }
