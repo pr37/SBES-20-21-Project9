@@ -31,13 +31,13 @@ namespace SecurityManager
             }
         }
 
-        public static void DatabaseInput()
+        public static void DatabaseInput(string nesto)
         {
             // TO DO
             if (customLog != null)
             {
                 string str = AuditEvents.DatabaseInputSucces;
-                string message = String.Format(str, "gomila stvari");
+                string message = String.Format(str, nesto);
 
                 customLog.WriteEntry(message);
             }
