@@ -6,15 +6,19 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using SecurityManager;
+using SymmetricAlgorithmAES;
 
 namespace Subscriber
 {
     class Program
     {
+        private static readonly string secretKeyPath = "../../../Models/secretKey.txt";
+
         static void Main(string[] args)
         {
             /// Define the expected service certificate. It is required to establish cmmunication using certificates.
             string srvCertCN = "PubSubService";
+            
 
             NetTcpBinding binding = new NetTcpBinding();
             binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
@@ -38,7 +42,10 @@ namespace Subscriber
                     ints = input.Split(' ');
                 }
 
-                proxy.Subscribe(minRisk, maxRisk);
+
+                proxy.Subscribe(AESInECB.EncriptInteger(minRisk, SecretKey.LoadKey(secretKeyPath)),
+                    AESInECB.EncriptInteger(maxRisk, SecretKey.LoadKey(secretKeyPath)));
+                Console.WriteLine($"Subscribed to [{minRisk}-{maxRisk}]");
 
                 Console.ReadLine();
                 Console.ReadLine();

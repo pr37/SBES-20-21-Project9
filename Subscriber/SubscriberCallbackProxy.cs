@@ -75,12 +75,11 @@ namespace Subscriber
         }
         */
 
-        public void Subscribe(int from, int to)
+        public void Subscribe(byte[] encryptedFrom, byte[] encryptedTo)
         {
             try
             {
-                factory.Subscribe(from, to);
-                Console.WriteLine($"Subrscribed to topic [{from}-{to}]");
+                factory.Subscribe(encryptedFrom, encryptedTo);
             }
             catch (Exception e)
             {

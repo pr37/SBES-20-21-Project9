@@ -7,12 +7,16 @@ using System.Text;
 using System.Threading.Tasks;
 using Models;
 using System.Threading;
+using SymmetricAlgorithmAES;
+using SecurityManager;
 
 namespace PubSubEngine
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerSession)]
     public class SubService : ISubscribe
     {
+        private static readonly string secretKeyPath = "../../../Models/secretKey.txt";
+
         public int From { get; set; }
         public int To { get; set; }
         public DateTime Timestamp { get; set; }
@@ -33,11 +37,30 @@ namespace PubSubEngine
                 if (data.Count != 0)
                 {
                     Timestamp = DateTime.Now;
-                    this.Callback.PushTopic(data);
+
+                    List<byte[]> encryptedAlarms = new List<byte[]>();
+                    foreach(Alarm alarm in data)
+                    {
+                        encryptedAlarms.Add(AESInECB.EncryptAlarm(alarm, SecretKey.LoadKey(secretKeyPath)));
+                    }
+
+                    this.Callback.PushTopic(encryptedAlarms);
                     data.Clear();
                 }
                 Thread.Sleep(3000);
             }
+        }
+
+        public void Subscribe(byte[] encryptedFrom, byte[] encryptedTo)
+        {
+            Timestamp = DateTime.Now;
+            int from = AESInECB.DecryptInteger(encryptedFrom, SecretKey.LoadKey(secretKeyPath));
+            int to = AESInECB.DecryptInteger(encryptedTo, SecretKey.LoadKey(secretKeyPath));
+            
+            From = from; To = to;
+            //List<Alarm> data = Repository.alarms.FindAll(x => x.Risk > from && x.Risk < to);
+            Console.WriteLine($"Subccriber XYZ subcribed to [{from}-{to}]");
+            SendDelta();
         }
 
         ISubscribeCallback Callback
