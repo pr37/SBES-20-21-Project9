@@ -65,7 +65,7 @@ namespace Publisher
 					byte[] encrytpedAlarm = AESInECB.EncryptAlarm(alarm, SecretKey.LoadKey(secretKeyPath));
 					byte[] signature = CreateSignature(encrytpedAlarm, signCertCN);
 
-					this.Publish(encrytpedAlarm, null);
+					this.Publish(encrytpedAlarm, signature);
 					Console.WriteLine($"Published: {alarm}");
 				}
 				catch(Exception e)

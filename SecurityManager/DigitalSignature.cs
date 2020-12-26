@@ -47,13 +47,13 @@ namespace SecurityManager
         }
 
 
-        public static bool Verify(string message, HashAlgorithm hashAlgorithm, byte[] signature, X509Certificate2 certificate)
+        public static bool Verify(byte[] data, HashAlgorithm hashAlgorithm, byte[] signature, X509Certificate2 certificate)
         {
             /// Looks for the certificate's public key to verify a message
             RSACryptoServiceProvider csp = (RSACryptoServiceProvider)certificate.PublicKey.Key;
 
             UnicodeEncoding encoding = new UnicodeEncoding();
-            byte[] data = encoding.GetBytes(message);
+            //byte[] data = encoding.GetBytes(message);
             byte[] hash = null;
 
             if (hashAlgorithm.Equals(HashAlgorithm.SHA1))
