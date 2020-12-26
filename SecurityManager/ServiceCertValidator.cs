@@ -23,10 +23,19 @@ namespace SecurityManager
 				//Formatter.ParseName(WindowsIdentity.GetCurrent().Name)); TODO vrati
 				"PubSubService");
 
+
+		
+
 			if (!certificate.Issuer.Equals(srvCert.Issuer))
 			{
 				throw new Exception("Certificate is not from the valid issuer.");
 			}
+
+			DateTime expirationDate = DateTime.Parse(certificate.GetExpirationDateString());
+			if (expirationDate < DateTime.Now)
+            {
+				throw new Exception($"Certificate expired on [{expirationDate}]");
+            }
 		}
 	}
 }

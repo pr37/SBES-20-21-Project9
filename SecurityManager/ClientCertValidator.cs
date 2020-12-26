@@ -21,6 +21,12 @@ namespace SecurityManager
 			{
 				throw new Exception("Certificate is self-issued.");
 			}
+
+			DateTime expirationDate = DateTime.Parse(certificate.GetExpirationDateString());
+			if (expirationDate < DateTime.Now)
+			{
+				throw new Exception($"Certificate expired on [{expirationDate}]");
+			}
 		}
 	}
 }
