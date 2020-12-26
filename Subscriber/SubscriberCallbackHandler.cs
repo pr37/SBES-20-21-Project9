@@ -6,11 +6,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Contracts;
 using Models;
+using SecurityManager;
+using SymmetricAlgorithmAES;
 
 namespace Subscriber
 {
     public class SubscriberCallbackHandler : ISubscribeCallback
     {
+        private static readonly string secretKeyPath = "../../../Models/secretKey.txt";
+
         private List<Alarm> _alarms;
         private Writer writer;
 
@@ -22,9 +26,15 @@ namespace Subscriber
         }
 
 
-        public void PushTopic(List<Alarm> alarms)
+        public void PushTopic(List<byte[]> encryptedAlarms)
         {
-            foreach(Alarm alarm in alarms)
+            List<Alarm> alarms = new List<Alarm>();
+            foreach(byte[] alarm in encryptedAlarms)
+            {
+                alarms.Add(AESInECB.DecryptAlarm(alarm, SecretKey.LoadKey(secretKeyPath)));
+            }
+
+            foreach (Alarm alarm in alarms)
             {
                 if (AlarmValidator.Validate(alarm))
                 {
@@ -38,6 +48,5 @@ namespace Subscriber
                 }
             }
         }
-
     }
 }

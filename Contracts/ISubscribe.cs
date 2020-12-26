@@ -12,7 +12,7 @@ namespace Contracts
     public interface ISubscribe
     {
         [OperationContract(IsOneWay = true)]
-        void Subscribe(int from, int to);
+        void Subscribe(byte[] encryptedFrom, byte[] encryptedTo);
 
     }
 
@@ -20,6 +20,6 @@ namespace Contracts
     public interface ISubscribeCallback
     {
         [OperationContract(IsOneWay = true)]
-        void PushTopic(List<Alarm> alarms);
+        void PushTopic(List<byte[]> encryptedAlarms);
     }
 }
