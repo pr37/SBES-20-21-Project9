@@ -42,6 +42,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Audit.cs" />
+    <Compile Include="AuditEventFile.Designer.cs" />
+    <Compile Include="AuditEvents.cs" />
     <Compile Include="CertManager.cs" />
     <Compile Include="ClientCertValidator.cs" />
     <Compile Include="DigitalSignature.cs" />
