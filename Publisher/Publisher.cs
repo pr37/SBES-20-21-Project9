@@ -29,8 +29,8 @@ namespace Publisher
 			: base(binding, address)
 		{
 			/// cltCertCN.SubjectName should be set to the client's username. .NET WindowsIdentity class provides information about Windows user running the given process
-			//string cltCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name); //TODO vrati
-			string cltCertCN = "Publisher";
+			string cltCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name); //TODO VRATI
+			//string cltCertCN = "Publisher";
 
 
 			//signCertCN = cltCertCN;
