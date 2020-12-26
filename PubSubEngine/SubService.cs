@@ -33,7 +33,7 @@ namespace PubSubEngine
         {
             while (true)
             {
-                List<Alarm> data = Repository.alarms.FindAll(x => x.Risk > From && x.Risk < To && x.CreationTime > Timestamp);
+                List<Alarm> data = Repository.alarms.FindAll(x => x.Risk >= From && x.Risk <= To && x.CreationTime > Timestamp);
                 if (data.Count != 0)
                 {
                     Timestamp = DateTime.Now;
@@ -47,7 +47,7 @@ namespace PubSubEngine
                     this.Callback.PushTopic(encryptedAlarms);
                     data.Clear();
                 }
-                Thread.Sleep(3000);
+                Thread.Sleep(50);
             }
         }
 
