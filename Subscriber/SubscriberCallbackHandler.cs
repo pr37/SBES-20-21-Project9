@@ -25,7 +25,30 @@ namespace Subscriber
             writer = new Writer("SubscriberLogFile_"+thisProces.Id.ToString()+".txt");
         }
 
+        public void PushTopic(Dictionary<byte[],byte[]> signedEncryptedAlarms)
+        {
+            List<Alarm> alarms = new List<Alarm>();
+            foreach (byte[] sign in signedEncryptedAlarms.Keys)
+            {
+                alarms.Add(AESInECB.DecryptAlarm(signedEncryptedAlarms[sign], SecretKey.LoadKey(secretKeyPath)));
+            }
 
+            foreach (Alarm alarm in alarms)
+            {
+                if (AlarmValidator.Validate(alarm)) //TODO izmeni ovaj validator da prima sign i da validira ili ga samo ovde validiraj
+                {
+                    _alarms.Add(alarm);
+                    Console.WriteLine($"Subscriber received {alarm.ToString()}");
+                    writer.Write(alarm.ToString());
+                }
+                else
+                {
+                    Console.WriteLine($"Alarm: {alarm.ToString()} ; rejected.");
+                }
+            }
+        }
+
+        /*
         public void PushTopic(List<byte[]> encryptedAlarms)
         {
             List<Alarm> alarms = new List<Alarm>();
@@ -47,6 +70,6 @@ namespace Subscriber
                     Console.WriteLine($"Alarm: {alarm.ToString()} ; rejected.");
                 }
             }
-        }
+        } */
     }
 }

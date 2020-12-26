@@ -9,6 +9,7 @@ namespace PubSubEngine
 {
     public class Repository
     {
-        public static List<Alarm> alarms = new List<Alarm>();
+        //public static List<Alarm> alarms = new List<Alarm>();
+        public static Dictionary<byte[], Alarm> signedAlarms = new Dictionary<byte[], Alarm>(); //sign,Alarm
     }
 }

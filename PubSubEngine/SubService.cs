@@ -33,18 +33,21 @@ namespace PubSubEngine
         {
             while (true)
             {
-                List<Alarm> data = Repository.alarms.FindAll(x => x.Risk >= From && x.Risk <= To && x.CreationTime > Timestamp);
+                Dictionary<byte[],Alarm> data = (Dictionary<byte[], Alarm>)Repository.signedAlarms.Where(
+                    x => x.Value.Risk >= From && x.Value.Risk <= To && x.Value.CreationTime > Timestamp);
                 if (data.Count != 0)
                 {
                     Timestamp = DateTime.Now;
 
-                    List<byte[]> encryptedAlarms = new List<byte[]>();
-                    foreach(Alarm alarm in data)
+                    // List<byte[]> encryptedAlarms = new List<byte[]>();
+                    Dictionary<byte[], byte[]> signedEncryptedAlarms = new Dictionary<byte[], byte[]>();
+
+                    foreach(byte[] key in data.Keys)
                     {
-                        encryptedAlarms.Add(AESInECB.EncryptAlarm(alarm, SecretKey.LoadKey(secretKeyPath)));
+                        signedEncryptedAlarms.Add(key,AESInECB.EncryptAlarm(data[key], SecretKey.LoadKey(secretKeyPath)));
                     }
 
-                    this.Callback.PushTopic(encryptedAlarms);
+                    this.Callback.PushTopic(signedEncryptedAlarms);
                     data.Clear();
                 }
                 Thread.Sleep(50);

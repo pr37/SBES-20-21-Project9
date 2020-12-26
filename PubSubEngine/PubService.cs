@@ -28,7 +28,7 @@ namespace PubSubEngine
             if (DigitalSignature.Verify(encryptedAlarm, HashAlgorithm.SHA1, sign, GetSignatureCertificate()))
             {
                 Alarm alarm = AESInECB.DecryptAlarm(encryptedAlarm, SecretKey.LoadKey(secretKeyPath));
-                Repository.alarms.Add(alarm);
+                Repository.signedAlarms.Add(sign,alarm);
                 Console.WriteLine(alarm);
             }
             else
