@@ -18,6 +18,7 @@ namespace Subscriber
         private List<Alarm> _alarms;
         private Writer writer;
 
+        public static bool finished = false;
         public SubscriberCallbackHandler()
         {
             _alarms = new List<Alarm>();
@@ -56,6 +57,29 @@ namespace Subscriber
                     Console.WriteLine($"Alarm: {alarm} ; rejected.");
                 }
             }
+        }
+
+        public void SendBackPublishers(List<int> publishers)
+        {
+            Console.WriteLine("Here's the list of publishers, pick one by choosing its index number: ");
+            for(int i = 0; i < publishers.Count; i++)
+            {
+                Console.WriteLine(" "+ i.ToString() + " : " + publishers[i].ToString());
+            }
+            while(true)
+            {
+                Console.WriteLine("Enter index (enter x if you are finnished)");
+                string ent = Console.ReadLine();
+                if (ent.Equals("x"))
+                {
+                    finished = true;
+                    break;
+                }
+                int index = Int32.Parse(ent); //TRY PARSE
+                
+                SubscriberCallbackProxy.subscribedPublishers.Add(publishers[index]);
+            }
+
         }
 
         /*

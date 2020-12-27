@@ -15,6 +15,7 @@ namespace Subscriber
     {
         ISubscribe factory;
 
+        public static List<int> subscribedPublishers = new List<int>();
         public SubscriberCallbackProxy(InstanceContext instanceContext, NetTcpBinding binding, EndpointAddress address) : 
             base(instanceContext, binding, address )
         {
@@ -40,6 +41,12 @@ namespace Subscriber
 
 
             factory = this.CreateChannel();
+        }
+
+        public void ConnectToPublishers()
+        {
+            Console.WriteLine("Connecting to publishers...");
+            factory.ConnectToPublishers();
         }
 
         public void Dispose()
@@ -75,11 +82,11 @@ namespace Subscriber
         }
         */
 
-        public void Subscribe(byte[] encryptedFrom, byte[] encryptedTo)
+        public void Subscribe(byte[] encryptedFrom, byte[] encryptedTo, List<int> publishers)
         {
             try
             {
-                factory.Subscribe(encryptedFrom, encryptedTo);
+                factory.Subscribe(encryptedFrom, encryptedTo,subscribedPublishers);
             }
             catch (Exception e)
             {

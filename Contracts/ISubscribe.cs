@@ -12,7 +12,9 @@ namespace Contracts
     public interface ISubscribe
     {
         [OperationContract(IsOneWay = true)]
-        void Subscribe(byte[] encryptedFrom, byte[] encryptedTo);
+        void Subscribe(byte[] encryptedFrom, byte[] encryptedTo, List<int> publishers);
+        [OperationContract(IsOneWay = true)]
+        void ConnectToPublishers(); //SEE ALL PUBLISHERS
 
     }
 
@@ -22,5 +24,7 @@ namespace Contracts
         [OperationContract(IsOneWay = true)]
        // void PushTopic(List<byte[]> encryptedAlarms);
         void PushTopic(Dictionary<byte[],byte[]> signedEncryptedAlarms);
+        [OperationContract(IsOneWay = true)]
+        void SendBackPublishers(List<int> publishers);
     }
 }

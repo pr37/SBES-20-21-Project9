@@ -26,35 +26,41 @@ namespace PubSubEngine
             From = from; To = to;
             //List<Alarm> data = Repository.alarms.FindAll(x => x.Risk > from && x.Risk < to);
             Console.WriteLine($"Subccriber XYZ subcribed to [{from}-{to}]");
-            SendDelta();
+          //  SendDelta();
         }
 
-        public void SendDelta()
+        public void SendDelta(List<int> publishers)
         {
             while (true)
             {
-                Dictionary<byte[],Alarm> data = Repository.signedAlarms.Where(
-                    x => x.Value.Risk >= From && x.Value.Risk <= To && x.Value.CreationTime > Timestamp).ToDictionary(x => x.Key, x=> x.Value);
-                if (data.Count != 0)
+                Dictionary<byte[], Alarm> data = new Dictionary<byte[], Alarm>();
+                Dictionary<byte[], Alarm> repoData_copy = new Dictionary<byte[], Alarm>(Repository.signedAlarms);
+                foreach (var pub in publishers)
                 {
-                    Timestamp = DateTime.Now;
-
-                    // List<byte[]> encryptedAlarms = new List<byte[]>();
-                    Dictionary<byte[], byte[]> signedEncryptedAlarms = new Dictionary<byte[], byte[]>();
-
-                    foreach(byte[] key in data.Keys)
+                    data = repoData_copy.Where(
+                        x => x.Value.Risk >= From && x.Value.Risk <= To && x.Value.CreationTime > Timestamp && x.Value.Publisher == pub).ToDictionary(x => x.Key, x => x.Value);
+                    if (data.Count != 0)
                     {
-                        signedEncryptedAlarms.Add(key,AESInECB.EncryptAlarm(data[key], SecretKey.LoadKey(secretKeyPath)));
-                    }
+                        Timestamp = DateTime.Now;
 
-                    this.Callback.PushTopic(signedEncryptedAlarms);
-                    data.Clear();
+                        // List<byte[]> encryptedAlarms = new List<byte[]>();
+                        Dictionary<byte[], byte[]> signedEncryptedAlarms = new Dictionary<byte[], byte[]>();
+
+                        foreach (byte[] key in data.Keys)
+                        {
+                            signedEncryptedAlarms.Add(key, AESInECB.EncryptAlarm(data[key], SecretKey.LoadKey(secretKeyPath)));
+                        }
+
+                        this.Callback.PushTopic(signedEncryptedAlarms);
+                        data.Clear();
+                    }
+                    Thread.Sleep(50);
                 }
-                Thread.Sleep(50);
+                
             }
         }
 
-        public void Subscribe(byte[] encryptedFrom, byte[] encryptedTo)
+        public void Subscribe(byte[] encryptedFrom, byte[] encryptedTo, List<int> publishers)
         {
             Timestamp = DateTime.Now;
             int from = AESInECB.DecryptInteger(encryptedFrom, SecretKey.LoadKey(secretKeyPath));
@@ -63,8 +69,14 @@ namespace PubSubEngine
             From = from; To = to;
             //List<Alarm> data = Repository.alarms.FindAll(x => x.Risk > from && x.Risk < to);
             Console.WriteLine($"Subccriber XYZ subcribed to [{from}-{to}]");
-            SendDelta();
+            SendDelta(publishers);
         }
+
+        public void ConnectToPublishers()
+        {
+            this.Callback.SendBackPublishers(Repository.publishers);
+        }
+
 
         ISubscribeCallback Callback
         {

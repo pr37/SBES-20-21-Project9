@@ -36,6 +36,8 @@ namespace Models
         [DataMember]
         public DateTime CreationTime { get;  set; }
 
+        [DataMember]
+        public int Publisher { get; set; }
 
         [DataMember]
         private int _risk;
@@ -73,7 +75,7 @@ namespace Models
 
         public override string ToString()
         {
-            return string.Format($"[{this.CreationTime}] : Risk:{this.Risk} : Additional Message:{this.Message}");
+            return string.Format($"[{this.CreationTime}] : Risk:{this.Risk} : Additional Message:{this.Message} : From:{this.Publisher.ToString()}");
         }
 
     }

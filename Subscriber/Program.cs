@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using SecurityManager;
 using SymmetricAlgorithmAES;
@@ -31,6 +32,22 @@ namespace Subscriber
             InstanceContext instanceContext = new InstanceContext(new SubscriberCallbackHandler());
             using (SubscriberCallbackProxy proxy = new SubscriberCallbackProxy(instanceContext ,binding, address))
             {
+                try
+                {
+                    proxy.ConnectToPublishers();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+
+                while(!SubscriberCallbackHandler.finished)
+                {
+                    Thread.Sleep(1000);
+                }
+                Console.WriteLine("Enter to proceede:");
+                Console.ReadLine();
+
                 Console.WriteLine("Define minimum and maximum risk of iterest(integer_integer):");
                 string input = Console.ReadLine();
                 string[] ints = input.Split(' ');
@@ -42,9 +59,9 @@ namespace Subscriber
                     ints = input.Split(' ');
                 }
 
-
+                
                 proxy.Subscribe(AESInECB.EncriptInteger(minRisk, SecretKey.LoadKey(secretKeyPath)),
-                    AESInECB.EncriptInteger(maxRisk, SecretKey.LoadKey(secretKeyPath)));
+                    AESInECB.EncriptInteger(maxRisk, SecretKey.LoadKey(secretKeyPath)),SubscriberCallbackProxy.subscribedPublishers);
                 Console.WriteLine($"Subscribed to [{minRisk}-{maxRisk}]");
 
                 Console.ReadLine();

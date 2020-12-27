@@ -57,15 +57,17 @@ namespace Publisher
             while(true)
             {
 				int risk = GenerateRisk();
+				Process thisProcess = Process.GetCurrentProcess();
 				AlarmMessagesTypes msg = GenerateMessageType(risk);
 				alarm = new Alarm(DateTime.Now, risk, msg);
+				alarm.Publisher = thisProcess.Id;
 
 				try
                 {
 					byte[] encrytpedAlarm = AESInECB.EncryptAlarm(alarm, SecretKey.LoadKey(secretKeyPath));
 					byte[] signature = CreateSignature(encrytpedAlarm, signCertCN);
 
-					Process thisProcess = Process.GetCurrentProcess();
+					
 					this.Publish(encrytpedAlarm, signature,thisProcess.Id);
 					Console.WriteLine($"Published: {alarm}");
 				}
