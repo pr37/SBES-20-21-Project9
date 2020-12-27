@@ -23,7 +23,7 @@ namespace Contracts
     {
         [OperationContract(IsOneWay = true)]
        // void PushTopic(List<byte[]> encryptedAlarms);
-        void PushTopic(Dictionary<byte[],byte[]> signedEncryptedAlarms);
+        void PushTopic(Dictionary<byte[],byte[]> signedEncryptedAlarms, DateTime lastKnownPublisher);
         [OperationContract(IsOneWay = true)]
         void SendBackPublishers(List<int> publishers);
     }

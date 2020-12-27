@@ -32,38 +32,51 @@ namespace Subscriber
             InstanceContext instanceContext = new InstanceContext(new SubscriberCallbackHandler());
             using (SubscriberCallbackProxy proxy = new SubscriberCallbackProxy(instanceContext ,binding, address))
             {
-                try
+                while (true)
                 {
-                    proxy.ConnectToPublishers();
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                }
+                    try
+                    {
+                        proxy.ConnectToPublishers();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
 
-                while(!SubscriberCallbackHandler.finished)
-                {
-                    Thread.Sleep(1000);
+                    while (!SubscriberCallbackHandler.finished)
+                    {
+                        Thread.Sleep(1000);
+                    }
+                    Console.WriteLine("Enter to proceede:");
+                    Console.ReadLine();
+
+                    Console.WriteLine("Define minimum and maximum risk of iterest(integer_integer):");
+                    string input = Console.ReadLine();
+                    string[] ints = input.Split(' ');
+                    int minRisk, maxRisk;
+                    while (ints.Length != 2 || !Int32.TryParse(ints[0], out minRisk) || !Int32.TryParse(ints[1], out maxRisk))
+                    {
+                        Console.WriteLine("Enter 2 proper integers separeted by a space: ");
+                        input = Console.ReadLine();
+                        ints = input.Split(' ');
+                    }
+
+
+                    proxy.Subscribe(AESInECB.EncriptInteger(minRisk, SecretKey.LoadKey(secretKeyPath)),
+                        AESInECB.EncriptInteger(maxRisk, SecretKey.LoadKey(secretKeyPath)), SubscriberCallbackProxy.subscribedPublishers);
+                    Console.WriteLine($"Subscribed to [{minRisk}-{maxRisk}]");
+
+                    while (true)
+                    {
+                        if (SubscriberCallbackHandler.thereIsNewPub)
+                        {
+                            SubscriberCallbackHandler.thereIsNewPub = false;
+                            SubscriberCallbackHandler.finished = false;
+                            break;
+                        }
+                    }
+
                 }
-                Console.WriteLine("Enter to proceede:");
-                Console.ReadLine();
-
-                Console.WriteLine("Define minimum and maximum risk of iterest(integer_integer):");
-                string input = Console.ReadLine();
-                string[] ints = input.Split(' ');
-                int minRisk, maxRisk;
-                while (ints.Length != 2 || !Int32.TryParse(ints[0], out minRisk) || !Int32.TryParse(ints[1], out maxRisk))
-                {
-                    Console.WriteLine("Enter 2 proper integers separeted by a space: ");
-                    input = Console.ReadLine();
-                    ints = input.Split(' ');
-                }
-
-                
-                proxy.Subscribe(AESInECB.EncriptInteger(minRisk, SecretKey.LoadKey(secretKeyPath)),
-                    AESInECB.EncriptInteger(maxRisk, SecretKey.LoadKey(secretKeyPath)),SubscriberCallbackProxy.subscribedPublishers);
-                Console.WriteLine($"Subscribed to [{minRisk}-{maxRisk}]");
-
                 Console.ReadLine();
                 Console.ReadLine();
             }

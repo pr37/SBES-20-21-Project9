@@ -19,6 +19,10 @@ namespace Subscriber
         private Writer writer;
 
         public static bool finished = false;
+        public static DateTime lastPublisher = default;
+        // public static DateTime newPublisher = default;
+        public static bool thereIsNewPub = false;
+        public static bool isFirstTime = true;
         public SubscriberCallbackHandler()
         {
             _alarms = new List<Alarm>();
@@ -26,19 +30,18 @@ namespace Subscriber
             writer = new Writer("SubscriberLogFile_"+thisProces.Id.ToString()+".txt");
         }
 
-        public void PushTopic(Dictionary<byte[],byte[]> signedEncryptedAlarms)
+        public void PushTopic(Dictionary<byte[],byte[]> signedEncryptedAlarms, DateTime lastKnownPublisher)
         {
             /*
             Dictionary<byte[], Alarm> alarms = new Dictionary<byte[], Alarm>();
-
+            
            
             foreach (byte[] sign in signedEncryptedAlarms.Keys)
             {
                 alarms.Add(AESInECB.DecryptAlarm(signedEncryptedAlarms[sign], SecretKey.LoadKey(secretKeyPath)));
             }
             */
-
-
+            if (!finished) { return; }
             foreach (var signedAlarmPair in signedEncryptedAlarms)
             {
                 byte[] encryptedAlarm = signedAlarmPair.Value;
@@ -57,10 +60,18 @@ namespace Subscriber
                     Console.WriteLine($"Alarm: {alarm} ; rejected.");
                 }
             }
+            if(lastKnownPublisher!=lastPublisher && !isFirstTime)
+            {
+                thereIsNewPub = true;
+            //    isFirstTime = false;
+                lastPublisher = lastKnownPublisher;
+            }
+            isFirstTime = false;
         }
 
         public void SendBackPublishers(List<int> publishers)
         {
+         //   lastPublisher = DateTime.Now;
             Console.WriteLine("Here's the list of publishers, pick one by choosing its index number: ");
             for(int i = 0; i < publishers.Count; i++)
             {

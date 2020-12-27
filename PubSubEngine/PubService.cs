@@ -15,6 +15,7 @@ namespace PubSubEngine
     public class PubService : IPublish
     {
         private static readonly string secretKeyPath = "../../../Models/secretKey.txt";
+        public static DateTime lastConnectedPublisher = default;
 
         public PubService()
         {
@@ -32,6 +33,7 @@ namespace PubSubEngine
                 if (!Repository.publishers.Contains(processId))
                 {
                     Repository.publishers.Add(processId);
+                    lastConnectedPublisher = DateTime.Now;
                 }
                 Console.WriteLine(alarm);
             }

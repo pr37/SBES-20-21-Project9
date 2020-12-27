@@ -51,10 +51,13 @@ namespace PubSubEngine
                             signedEncryptedAlarms.Add(key, AESInECB.EncryptAlarm(data[key], SecretKey.LoadKey(secretKeyPath)));
                         }
 
-                        this.Callback.PushTopic(signedEncryptedAlarms);
+                        this.Callback.PushTopic(signedEncryptedAlarms,PubService.lastConnectedPublisher);
                         data.Clear();
                     }
-                    Thread.Sleep(50);
+                    Thread.Sleep(600);
+
+                    //provera da li je dosao novi pablisher
+
                 }
                 
             }
