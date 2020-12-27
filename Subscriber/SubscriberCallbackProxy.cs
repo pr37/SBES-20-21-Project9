@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+using System.Security.Principal;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,8 +20,8 @@ namespace Subscriber
             base(instanceContext, binding, address )
         {
             /// cltCertCN.SubjectName should be set to the client's username. .NET WindowsIdentity class provides information about Windows user running the given process
-            //string cltCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name); //TODO vrati
-            string cltCertCN = "Subscriber";
+            string cltCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name); //TODO vrati
+            //string cltCertCN = "Subscriber";
 
 
             //signCertCN = cltCertCN;
