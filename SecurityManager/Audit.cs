@@ -31,13 +31,13 @@ namespace SecurityManager
             }
         }
 
-        public static void DatabaseInput(string nesto)
+        public static void DatabaseInput(DateTime timeStamp, string databaseName, string entityID, string digitalSign, string publicKey)
         {
             // TO DO
             if (customLog != null)
             {
                 string str = AuditEvents.DatabaseInputSucces;
-                string message = String.Format(str, nesto);
+                string message = String.Format(str, timeStamp, databaseName, entityID, digitalSign, publicKey);
 
                 customLog.WriteEntry(message);
             }
