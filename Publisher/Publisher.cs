@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Principal;
@@ -59,13 +60,13 @@ namespace Publisher
 				AlarmMessagesTypes msg = GenerateMessageType(risk);
 				alarm = new Alarm(DateTime.Now, risk, msg);
 
-				//this.Publish(alarm,CreateSignature(alarm.Message,signCertCN)); // TODO
 				try
                 {
 					byte[] encrytpedAlarm = AESInECB.EncryptAlarm(alarm, SecretKey.LoadKey(secretKeyPath));
 					byte[] signature = CreateSignature(encrytpedAlarm, signCertCN);
 
-					this.Publish(encrytpedAlarm, signature);
+					Process thisProcess = Process.GetCurrentProcess();
+					this.Publish(encrytpedAlarm, signature,thisProcess.Id);
 					Console.WriteLine($"Published: {alarm}");
 				}
 				catch(Exception e)
@@ -126,11 +127,11 @@ namespace Publisher
 			return DigitalSignature.Create(data, HashAlgorithm.SHA1, certificateSign);
 		}
 
-        public void Publish(byte[] encryptedAlarm, byte[] sign)
+        public void Publish(byte[] encryptedAlarm, byte[] sign, int processId)
         {
 			try
 			{
-				factory.Publish(encryptedAlarm, sign);
+				factory.Publish(encryptedAlarm, sign,processId);
 			}
 			catch (Exception e)
 			{

@@ -11,5 +11,6 @@ namespace PubSubEngine
     {
         //public static List<Alarm> alarms = new List<Alarm>();
         public static Dictionary<byte[], Alarm> signedAlarms = new Dictionary<byte[], Alarm>(); //sign,Alarm
+        public static List<int> publishers = new List<int>();
     }
 }

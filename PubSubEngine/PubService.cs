@@ -22,13 +22,17 @@ namespace PubSubEngine
         }
 
 
-        public void Publish(byte[] encryptedAlarm, byte[] sign)
+        public void Publish(byte[] encryptedAlarm, byte[] sign, int processId)
         {
             
             if (DigitalSignature.Verify(encryptedAlarm, HashAlgorithm.SHA1, sign, GetSignatureCertificate()))
             {
                 Alarm alarm = AESInECB.DecryptAlarm(encryptedAlarm, SecretKey.LoadKey(secretKeyPath));
                 Repository.signedAlarms.Add(sign,alarm);
+                if (!Repository.publishers.Contains(processId))
+                {
+                    Repository.publishers.Add(processId);
+                }
                 Console.WriteLine(alarm);
             }
             else
