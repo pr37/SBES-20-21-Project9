@@ -12,11 +12,12 @@ namespace SecurityManager
 		//klijent verifikuje servis, servis TREBA da bude issued sam od sebe
 		public override void Validate(X509Certificate2 certificate)
 		{
-			Console.WriteLine($"CLIENT VALIDATING {certificate.Subject}:{certificate.Issuer}");
+			//Console.WriteLine($"CLIENT VALIDATING {certificate.Subject}:{certificate.Issuer}");
 
-			if (!certificate.Subject.Equals(certificate.Issuer))
+			
+			if (!certificate.Issuer.Equals("CN=PubSubEngine"))
 			{
-				throw new Exception($"Certificate {certificate.Subject} is self-issued.");
+				throw new Exception($"Certificate {certificate.Subject} is not self-issued.");
 			}
 
 			DateTime expirationDate = DateTime.Parse(certificate.GetExpirationDateString());
@@ -26,7 +27,7 @@ namespace SecurityManager
 			}
 
 
-			Console.WriteLine("CLIENT VALIDATING SUCCESS");
+			//Console.WriteLine("CLIENT VALIDATING SUCCESS");
 		}
 	}
 }

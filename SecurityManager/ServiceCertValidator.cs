@@ -16,10 +16,9 @@ namespace SecurityManager
 		{
 			/// This will take service's certificate from storage
 			X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine,
-				//Formatter.ParseName(WindowsIdentity.GetCurrent().Name)); TODO vrati
-				"PubSubService");
+				Formatter.ParseName(WindowsIdentity.GetCurrent().Name));
 
-			Console.WriteLine($"SERVICE VALIDATING {certificate.Subject}:{certificate.Issuer} WITH {srvCert.Subject}:{srvCert.Issuer}");
+			//Console.WriteLine($"SERVICE VALIDATING {certificate.Subject}:{certificate.Issuer} WITH {srvCert.Subject}:{srvCert.Issuer}");
 		
 
 			if (!certificate.Issuer.Equals(srvCert.Issuer))
@@ -33,7 +32,7 @@ namespace SecurityManager
 				throw new Exception($"Certificate expired on [{expirationDate}]");
             }
 
-			Console.WriteLine("SERVICE VALIDATING SUCCESS");
+			//Console.WriteLine("SERVICE VALIDATING SUCCESS");
 		}
 	}
 }
