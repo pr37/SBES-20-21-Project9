@@ -63,10 +63,14 @@ namespace Subscriber
             if(lastKnownPublisher!=lastPublisher && !isFirstTime)
             {
                 thereIsNewPub = true;
-            //    isFirstTime = false;
+                isFirstTime = false;
                 lastPublisher = lastKnownPublisher;
             }
-            isFirstTime = false;
+            if (isFirstTime)
+            {
+                lastPublisher = lastKnownPublisher;
+                isFirstTime = false;
+            }
         }
 
         public void SendBackPublishers(List<int> publishers)

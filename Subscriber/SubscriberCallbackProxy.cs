@@ -13,7 +13,7 @@ namespace Subscriber
 {
     class SubscriberCallbackProxy : DuplexChannelFactory<ISubscribe>, ISubscribe, IDisposable
     {
-        ISubscribe factory;
+        public ISubscribe factory;
 
         public static List<int> subscribedPublishers = new List<int>();
         public SubscriberCallbackProxy(InstanceContext instanceContext, NetTcpBinding binding, EndpointAddress address) : 
@@ -43,10 +43,18 @@ namespace Subscriber
             factory = this.CreateChannel();
         }
 
+
         public void ConnectToPublishers()
         {
             Console.WriteLine("Connecting to publishers...");
-            factory.ConnectToPublishers();
+            try
+            {
+                factory = this.CreateChannel();
+                factory.ConnectToPublishers();
+            } catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         public void Dispose()
