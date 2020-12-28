@@ -35,7 +35,7 @@ namespace Subscriber
             return DigitalSignature.Verify(encryptedAlarm, HashAlgorithm.SHA1, signature, GetSignatureCertificate());
         }
 
-        private static X509Certificate2 GetSignatureCertificate()
+        public static X509Certificate2 GetSignatureCertificate()
         {
 
             //string clientName = Formatter.ParseName(ServiceSecurityContext.Current.PrimaryIdentity.Name); this would give name of the service

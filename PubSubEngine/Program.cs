@@ -6,6 +6,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Principal;
 using System.ServiceModel;
+using System.ServiceModel.Description;
 using System.ServiceModel.Security;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +27,15 @@ namespace PubSubEngine
 
             string addressSub = "net.tcp://localhost:9999/Subscribers";
             ServiceHost subHost = ServiceHostHelper.PrepareHost(addressSub, typeof(SubService), typeof(ISubscribe), srvCertCN);
+
+            // Podesavanje Audit Behaviour-a
+            ServiceSecurityAuditBehavior newAudit = new ServiceSecurityAuditBehavior();
+            newAudit.AuditLogLocation = AuditLogLocation.Application;
+            newAudit.ServiceAuthorizationAuditLevel = AuditLevel.Success;
+
+            // Brisanje default-nog i dodavanje novog Audit Behaviour-a
+            subHost.Description.Behaviors.Remove<ServiceSecurityAuditBehavior>();
+            subHost.Description.Behaviors.Add(newAudit);
 
             OpenService(subHost, pubHost);
         }

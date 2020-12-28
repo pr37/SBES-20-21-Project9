@@ -61,7 +61,11 @@ namespace SecurityManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Gomila stvari: {0} za posle....
+        ///   Looks up a localized string similar to Input Time: {0}
+        ///Database Name: {1}
+        ///Entity ID: {2}
+        ///Digital Signature: {3}
+        ///Publisher public key: {4}.
         /// </summary>
         internal static string DatabaseInputSuccess {
             get {
