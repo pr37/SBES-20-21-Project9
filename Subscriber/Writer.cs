@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SecurityManager;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -16,11 +17,12 @@ namespace Subscriber
             Path = path;
         }
 
-        public void Write(string text)
+        public void Write(string text, string entityId, string signature, string publicKey )
         {
             using (StreamWriter sw = new StreamWriter(Path,true)) 
             {
                 sw.WriteLine(text);
+                Audit.DatabaseInput(DateTime.Now, Path, entityId ,signature, publicKey );
             }
         }
 
