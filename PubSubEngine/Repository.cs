@@ -9,7 +9,24 @@ namespace PubSubEngine
 {
     public class Repository
     {
+        private static object locker = new object();
         //public static List<Alarm> alarms = new List<Alarm>();
-        public static Dictionary<byte[], Alarm> signedAlarms = new Dictionary<byte[], Alarm>(); //sign,Alarm
+        private static Dictionary<byte[], Alarm> _signedAlarms = new Dictionary<byte[], Alarm>(); //sign,Alarm
+        public static Dictionary<byte[], Alarm> signedAlarms { 
+            get
+            {
+                lock(locker)
+                {
+                    return _signedAlarms;
+                }
+            } 
+            set
+            {
+                lock (locker)
+                {
+                    _signedAlarms = value;
+                }
+            }
+        }
     }
 }
