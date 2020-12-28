@@ -59,7 +59,7 @@ namespace Publisher
 				AlarmMessagesTypes msg = GenerateMessageType(risk);
 				alarm = new Alarm(DateTime.Now, risk, msg);
 
-				//this.Publish(alarm,CreateSignature(alarm.Message,signCertCN)); // TODO
+				//this.Publish(alarm,CreateSignature(alarm.Message,signCertCN)); 
 				try
                 {
 					byte[] encrytpedAlarm = AESInECB.EncryptAlarm(alarm, SecretKey.LoadKey(secretKeyPath));

@@ -49,8 +49,9 @@ namespace Subscriber
                 {
                     _alarms.Add(alarm);
                     Console.WriteLine($"Subscriber received {alarm.ToString()}");
-                    string sign = Encoding.UTF8.GetString(signature);
-                    writer.Write(alarm.ToString(), "ID?", sign, AlarmValidator.GetSignatureCertificate().PublicKey.ToString());
+                    //string sign = Encoding.Unicode.GetString(signature);
+                    string sign = Convert.ToBase64String(signature);
+                    writer.Write(alarm.ToString(), "ID?", sign, AlarmValidator.GetSignatureCertificate().GetPublicKeyString());
                 }
                 else
                 {

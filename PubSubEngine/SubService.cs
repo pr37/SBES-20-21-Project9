@@ -33,6 +33,7 @@ namespace PubSubEngine
         {
             while (true)
             {
+                //TODO lock
                 Dictionary<byte[],Alarm> data = Repository.signedAlarms.Where(
                     x => x.Value.Risk >= From && x.Value.Risk <= To && x.Value.CreationTime > Timestamp).ToDictionary(x => x.Key, x=> x.Value);
                 if (data.Count != 0)

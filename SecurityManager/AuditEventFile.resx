@@ -118,6 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DatabaseInputSuccess" xml:space="preserve">
-    <value>Input Time: {0}\nDatabase Name: {1}\nEntity ID: {2}\n Digital Signature: {3}\n Publisher public key:{4}</value>
+    <value>Input Time: {0}
+Database Name: {1}
+Entity ID: {2}
+Digital Signature: {3}
+Publisher public key: {4}</value>
   </data>
 </root>

@@ -43,7 +43,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Audit.cs" />
-    <Compile Include="AuditEventFile.Designer.cs" />
+    <Compile Include="AuditEventFile.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AuditEventFile.resx</DependentUpon>
+    </Compile>
     <Compile Include="AuditEvents.cs" />
     <Compile Include="CertManager.cs" />
     <Compile Include="ClientCertValidator.cs" />

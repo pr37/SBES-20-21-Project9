@@ -19,7 +19,7 @@ namespace SecurityManager {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class AuditEventFile {
@@ -61,7 +61,11 @@ namespace SecurityManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Input Time: {0}\nDatabase Name: {1}\nEntity ID: {2}\n Digital Signature: {3}\n Publisher public key:{4}.
+        ///   Looks up a localized string similar to Input Time: {0}
+        ///Database Name: {1}
+        ///Entity ID: {2}
+        ///Digital Signature: {3}
+        ///Publisher public key: {4}.
         /// </summary>
         internal static string DatabaseInputSuccess {
             get {

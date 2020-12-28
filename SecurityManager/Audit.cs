@@ -37,7 +37,10 @@ namespace SecurityManager
             if (customLog != null)
             {
                 string str = AuditEvents.DatabaseInputSucces;
-                string message = String.Format(str, timeStamp, databaseName, entityID, digitalSign, publicKey);
+                //string message = $"{str} \n Timestamp:{timeStamp} \n File name:{databaseName}  \nId:{entityID} \n" +
+                //    $"Signature: {digitalSign} \nPublic key: {publicKey}";
+                string[] args = { timeStamp.ToString(), databaseName, entityID, digitalSign, publicKey };
+                string message = String.Format(str, args);
 
                 customLog.WriteEntry(message);
             }
